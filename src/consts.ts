@@ -49,6 +49,16 @@ export const stores = [
   },
 ];
 
+let arrWithAlphbet = [];
+for (let i = 65; i < 91; i++) {
+  arrWithAlphbet.push(String.fromCharCode(i));
+}
+
+let arrWithNums = [];
+for (let num = 0; num < 10; num++) {
+  arrWithNums.push(num);
+}
+
 export const keyboards = [
   {
     type: "ko",
@@ -78,38 +88,11 @@ export const keyboards = [
   {
     type: "en",
     name: "A B C",
-    consonants: [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F",
-      "G",
-      "H",
-      "I",
-      "J",
-      "K",
-      "L",
-      "M",
-      "N",
-      "O",
-      "P",
-      "Q",
-      "R",
-      "S",
-      "T",
-      "U",
-      "V",
-      "W",
-      "X",
-      "Y",
-      "Z",
-    ],
+    consonants: arrWithAlphbet,
   },
   {
     type: "num",
     name: "1 2 3",
-    consonants: ["1", "2", "3"],
+    consonants: arrWithNums,
   },
 ];

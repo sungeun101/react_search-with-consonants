@@ -183,7 +183,7 @@ export default function Search({ setFilteredStores }: Props) {
           <ul className="flex flex-col gap-4 pt-4">
             <div className="flex flex-wrap gap-7">
               {selectedKeyboardType.consonants.map(
-                (con: string, _index: number) => (
+                (con: string | number, _index: number) => (
                   <button
                     className="w-[35px] h-[35px] rounded-full bg-grey"
                     onClick={handleConClick}
