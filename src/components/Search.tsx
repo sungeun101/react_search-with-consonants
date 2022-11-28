@@ -47,11 +47,16 @@ interface Props {
   >;
 }
 
+interface IKeyboardType {
+  type: string;
+  name: string;
+  consonants: Array<string | number>;
+}
+
 export default function Search({ setFilteredStores }: Props) {
   const [selectedCons, setSelectedCons] = useState("");
-  const [selectedKeyboardType, setSelectedKeyboardType] = useState(
-    keyboards[0]
-  );
+  const [selectedKeyboardType, setSelectedKeyboardType] =
+    useState<IKeyboardType>(keyboards[0]);
 
   useEffect(() => {
     searchMatchingStores();
@@ -129,7 +134,7 @@ export default function Search({ setFilteredStores }: Props) {
   return (
     <section className="p-8 flex gap-10">
       <nav className="flex flex-col gap-2 justify-between">
-        <button className="bg-white w-[200px] h-[55px]">
+        <button className="bg-red w-[200px] h-[55px] text-white">
           초성/알파벳 검색
         </button>
         <button className="bg-white w-[200px] h-[55px]">카테고리 검색</button>
@@ -171,7 +176,11 @@ export default function Search({ setFilteredStores }: Props) {
           <ul className="flex flex-col gap-2">
             {keyboards.map((item, _index) => (
               <button
-                className="bg-white w-[95px] h-[35px] rounded-3xl "
+                className={`w-[95px] h-[35px] rounded-3xl ${
+                  selectedKeyboardType.type === item.type
+                    ? "bg-black text-white"
+                    : "bg-white text-black"
+                }`}
                 onClick={changeKeyboardLanguage}
                 key={item.type}
                 data-keyboard-type={item.type}
@@ -181,7 +190,7 @@ export default function Search({ setFilteredStores }: Props) {
             ))}
           </ul>
           <ul className="flex flex-col gap-4 pt-4">
-            <div className="flex flex-wrap gap-7">
+            <div className="flex flex-wrap gap-6">
               {selectedKeyboardType.consonants.map(
                 (con: string | number, _index: number) => (
                   <button

@@ -4,41 +4,6 @@ import NavBar from "./components/NavBar";
 import Search from "./components/Search";
 import Carousel from "./components/Carousel";
 
-const reESC = /[\\^$.*+?()[\]{}|]/g;
-const reChar = /[가-힣]/;
-const reJa = /[ㄱ-ㅎ]/;
-const offset = 44032;
-const orderOffest = [
-  ["ㄱ", 44032],
-  ["ㄲ", 44620],
-  ["ㄴ", 45208],
-  ["ㄷ", 45796],
-  ["ㄸ", 46384],
-  ["ㄹ", 46972],
-  ["ㅁ", 47560],
-  ["ㅂ", 48148],
-  ["ㅃ", 48736],
-  ["ㅅ", 49324],
-];
-const con2syl = Object.fromEntries(orderOffest as readonly any[]);
-const pattern = (ch: string) => {
-  let r;
-  if (reJa.test(ch)) {
-    // 한글 자음
-    const begin =
-      con2syl[ch] || (ch.charCodeAt(0) - 12613) * 588 + con2syl["ㅅ"];
-    const end = begin + 587;
-    r = `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`;
-  } else if (reChar.test(ch)) {
-    const chCode = ch.charCodeAt(0) - offset;
-    if (chCode % 28 > 0) return ch; // 종성이 있으면 문자 그대로 찾기
-    const begin = Math.floor(chCode / 28) * 28 + offset;
-    const end = begin + 27;
-    r = `[\\u${begin.toString(16)}-\\u${end.toString(16)}]`;
-  } else r = ch.replace(reESC, "\\$&");
-  return `(${r})`;
-};
-
 const slideLength = Math.ceil(stores.length / 12);
 
 function App() {
@@ -60,13 +25,16 @@ function App() {
               </div>
             ) : (
               <Carousel>
-                {[...Array(slideLength)].map((slide, currentSlide) => (
+                {[...Array(slideLength)].map((current, currentSlideIndex) => (
                   <ul
-                    key={currentSlide}
+                    key={currentSlideIndex}
                     className="grid justify-items-center grid-cols-4 grid-rows-3 gap-9"
                   >
                     {filteredStores
-                      .slice(currentSlide * 12, currentSlide * 12 + 12)
+                      .slice(
+                        currentSlideIndex * 12,
+                        currentSlideIndex * 12 + 12
+                      )
                       .map((store: any, _index: number) => (
                         <li
                           className="w-[335px] h-[125px] bg-white flex"
