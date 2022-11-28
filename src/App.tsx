@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { keyboards, stores } from "./consts";
+import React, { useState } from "react";
+import { stores } from "./consts";
 import NavBar from "./components/NavBar";
 import Search from "./components/Search";
+import Carousel from "./components/Carousel";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
 const reChar = /[가-힣]/;
@@ -38,19 +39,10 @@ const pattern = (ch: string) => {
   return `(${r})`;
 };
 
+const slideLength = Math.ceil(stores.length / 12);
+
 function App() {
   const [filteredStores, setFilteredStores] = useState(stores);
-  const [current, setCurrent] = useState(0);
-  const slideLength = Math.ceil(stores.length / 12);
-  console.log(slideLength);
-
-  const nextSlide = () => {
-    setCurrent(current === slideLength - 1 ? 0 : current + 1);
-  };
-
-  const prevSlide = () => {
-    setCurrent(current === 0 ? slideLength - 1 : current - 1);
-  };
 
   return (
     <section className="bg-mainBg w-screen h-screen">
@@ -67,62 +59,35 @@ function App() {
                 검색 결과가 없습니다.
               </div>
             ) : (
-              <ul className="grid grid-cols-4 gap-9">
-                {filteredStores.map((store: any, _index: number) => (
-                  <li
-                    className="w-[335px] h-[125px] bg-white flex"
-                    key={store.name}
+              <Carousel>
+                {[...Array(slideLength)].map((slide, currentSlide) => (
+                  <ul
+                    key={currentSlide}
+                    className="grid justify-items-center grid-cols-4 grid-rows-3 gap-9"
                   >
-                    <div className="basis-2/3 border-r-2">icon</div>
-                    <div className="flex items-center justify-between w-full p-4">
-                      <span>{store.name}</span>
-                      <div className="flex flex-col h-full justify-between items-center">
-                        <span className="border-b-2 flex justify-center w-4">
-                          {store.floor}F
-                        </span>
-                        <span>icon</span>
-                      </div>
-                    </div>
-                  </li>
+                    {filteredStores
+                      .slice(currentSlide * 12, currentSlide * 12 + 12)
+                      .map((store: any, _index: number) => (
+                        <li
+                          className="w-[335px] h-[125px] bg-white flex"
+                          key={store.name}
+                        >
+                          <div className="basis-2/3 border-r-2">icon</div>
+                          <div className="flex items-center justify-between w-full p-4">
+                            <span>{store.name}</span>
+                            <div className="flex flex-col h-full justify-between items-center">
+                              <span className="border-b-2 flex justify-center w-4">
+                                {store.floor}F
+                              </span>
+                              <span>icon</span>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
                 ))}
-              </ul>
+              </Carousel>
             )}
-            {/* slider */}
-            <nav className="flex justify-center items-center h-24 text-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={3}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-              </svg>
-              <div className="flex gap-1 mx-2">
-                {[...Array(slideLength)].map((item, index) => (
-                  <li key={index} className="w-2 text-grey"></li>
-                ))}
-              </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={3}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                />
-              </svg>
-            </nav>
           </main>
 
           <Search setFilteredStores={setFilteredStores} />
