@@ -25,7 +25,7 @@ export default function NavBar() {
         </li>
         {[...Array(6)].map((item: any, index: any) => (
           <li
-            className="w-[240px] flex flex-col justify-center items-center"
+            className="w-[240px] flex flex-col justify-center items-center text-[20px]"
             key={index}
           >
             <div>icon</div>

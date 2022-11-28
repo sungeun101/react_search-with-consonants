@@ -1,5 +1,21 @@
 export const stores = [
   {
+    name: "ABC 그랜드스테이지",
+    floor: -1,
+  },
+  {
+    name: "가먼츠 유니온",
+    floor: -2,
+  },
+  {
+    name: "가메골 만두",
+    floor: -2,
+  },
+  {
+    name: "가민",
+    floor: -3,
+  },
+  {
     name: "루이가또즈 셔츠",
     floor: 1,
   },

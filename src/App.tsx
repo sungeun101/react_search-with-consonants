@@ -40,20 +40,33 @@ const pattern = (ch: string) => {
 
 function App() {
   const [filteredStores, setFilteredStores] = useState(stores);
+  const [current, setCurrent] = useState(0);
+  const slideLength = Math.ceil(stores.length / 12);
+  console.log(slideLength);
+
+  const nextSlide = () => {
+    setCurrent(current === slideLength - 1 ? 0 : current + 1);
+  };
+
+  const prevSlide = () => {
+    setCurrent(current === 0 ? slideLength - 1 : current - 1);
+  };
 
   return (
     <section className="bg-mainBg w-screen h-screen">
-      <div className="w-[1920px] h-[1080px]">
-        <main className="border-2 px-[220px] py-[60px]">
+      <div className="w-[1920px] h-[965px]">
+        <div className="border-2 px-[220px] pt-[60px] relative">
           <header className="text-[45px] pb-4 font-bold text-black">
             매장안내
           </header>
-          {filteredStores.length === 0 ? (
-            <div className="border-b-2 h-[500px] flex justify-center items-center text-3xl text-grey">
-              검색 결과가 없습니다.
-            </div>
-          ) : (
-            <div className="border-b-2 h-[500px]">
+
+          <main className="border-b-2 h-[540px]">
+            {/* stores */}
+            {filteredStores.length === 0 ? (
+              <div className="flex justify-center items-center text-3xl text-grey">
+                검색 결과가 없습니다.
+              </div>
+            ) : (
               <ul className="grid grid-cols-4 gap-9">
                 {filteredStores.map((store: any, _index: number) => (
                   <li
@@ -73,11 +86,47 @@ function App() {
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
+            )}
+            {/* slider */}
+            <nav className="flex justify-center items-center h-24 text-black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+              <div className="flex gap-1 mx-2">
+                {[...Array(slideLength)].map((item, index) => (
+                  <li key={index} className="w-2 text-grey"></li>
+                ))}
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </nav>
+          </main>
 
           <Search setFilteredStores={setFilteredStores} />
-        </main>
+        </div>
 
         <NavBar />
       </div>

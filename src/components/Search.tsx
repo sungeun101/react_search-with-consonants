@@ -127,14 +127,14 @@ export default function Search({ setFilteredStores }: Props) {
   };
 
   return (
-    <section className="py-8 px-4 flex gap-10">
-      <div className="flex flex-col gap-2 justify-between">
+    <section className="p-8 flex gap-10">
+      <nav className="flex flex-col gap-2 justify-between">
         <button className="bg-white w-[200px] h-[55px]">
           초성/알파벳 검색
         </button>
         <button className="bg-white w-[200px] h-[55px]">카테고리 검색</button>
         <button className="bg-white w-[200px] h-[55px]">층별 검색</button>
-      </div>
+      </nav>
 
       <div className="w-full flex flex-col mr-60">
         <div className="mx-auto relative">
