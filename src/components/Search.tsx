@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { IStore, Lang } from "../App";
 import { keyboards, stores } from "../consts";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
@@ -37,14 +38,8 @@ const pattern = (ch: string) => {
 };
 
 interface Props {
-  setFilteredStores: React.Dispatch<
-    React.SetStateAction<
-      {
-        name: string;
-        floor: number;
-      }[]
-    >
-  >;
+  setFilteredStores: React.Dispatch<React.SetStateAction<IStore[]>>;
+  selectedLang: Lang;
 }
 
 interface IKeyboardType {
@@ -53,7 +48,7 @@ interface IKeyboardType {
   consonants: Array<string | number>;
 }
 
-export default function Search({ setFilteredStores }: Props) {
+export default function Search({ setFilteredStores, selectedLang }: Props) {
   const [selectedCons, setSelectedCons] = useState("");
   const [selectedKeyboardType, setSelectedKeyboardType] =
     useState<IKeyboardType>(keyboards[0]);
@@ -84,24 +79,29 @@ export default function Search({ setFilteredStores }: Props) {
       return Boolean(matches);
     };
     const matchedResult = stores
-      .filter((store) => isConsonantsMatched(selectedCons, store.name))
+      .filter((store) =>
+        isConsonantsMatched(selectedCons, store.name[selectedLang])
+      )
       .map((store) => {
         let totalDistance = 0;
-        const matchingWords = store.name.replace(regex, (match, ...groups) => {
-          const letters = groups.slice(0, selectedCons.length);
-          let lastIndex = 0;
-          let highlighted = [];
-          for (let i = 0, l = letters.length; i < l; i++) {
-            const idx = match.indexOf(letters[i], lastIndex);
-            highlighted.push(match.substring(lastIndex, idx));
-            highlighted.push(letters[i]);
-            if (lastIndex > 0) {
-              totalDistance += idx - lastIndex;
+        const matchingWords = store.name[selectedLang].replace(
+          regex,
+          (match, ...groups) => {
+            const letters = groups.slice(0, selectedCons.length);
+            let lastIndex = 0;
+            let highlighted = [];
+            for (let i = 0, l = letters.length; i < l; i++) {
+              const idx = match.indexOf(letters[i], lastIndex);
+              highlighted.push(match.substring(lastIndex, idx));
+              highlighted.push(letters[i]);
+              if (lastIndex > 0) {
+                totalDistance += idx - lastIndex;
+              }
+              lastIndex = idx + 1;
             }
-            lastIndex = idx + 1;
+            return highlighted.join("");
           }
-          return highlighted.join("");
-        });
+        );
         return { matchingWords, totalDistance };
       });
     let consecutedOnly: string[] = [];
@@ -109,7 +109,9 @@ export default function Search({ setFilteredStores }: Props) {
       .filter((item) => item.totalDistance === 0)
       .forEach((item) => consecutedOnly.push(item.matchingWords));
     setFilteredStores(
-      stores.filter((store) => consecutedOnly.includes(store.name))
+      stores.filter((store) =>
+        consecutedOnly.includes(store.name[selectedLang])
+      )
     );
   };
 

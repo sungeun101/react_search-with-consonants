@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Lang } from "../App";
 const menuTitle = [
   "층별안내",
   "매장안내",
@@ -9,7 +9,19 @@ const menuTitle = [
   "시설안내",
 ];
 
-export default function NavBar() {
+interface Props {
+  selectedLang: Lang;
+  setSelectedLang: React.Dispatch<React.SetStateAction<Lang>>;
+}
+
+export default function NavBar({ selectedLang, setSelectedLang }: Props) {
+  const changeLanguage = () => {
+    setSelectedLang((prev) => {
+      if (prev === "ko") return "en";
+      return "ko";
+    });
+  };
+
   return (
     <nav className="h-[115px] w-full">
       <ul className="flex bg-white">
@@ -32,8 +44,30 @@ export default function NavBar() {
             <span>{menuTitle[index]}</span>
           </li>
         ))}
-        <li className="w-[240px] py-1 px-4 border-l-2 border-slate-50">
-          LANGUAGE
+        <li className="w-[240px] border-l-2 border-slate-50 flex flex-col justify-center items-center gap-1.5">
+          <div className="border-[1px] border-black">
+            <button
+              onClick={changeLanguage}
+              className={`py-1.5 px-5 ${
+                selectedLang === "ko"
+                  ? "bg-black text-white"
+                  : "bg-white text-black"
+              }`}
+            >
+              한글
+            </button>
+            <button
+              onClick={changeLanguage}
+              className={`py-1.5 px-5 ${
+                selectedLang === "en"
+                  ? "bg-black text-white"
+                  : "bg-white text-black"
+              }`}
+            >
+              EN
+            </button>
+          </div>
+          <div className="text-sm">LANGUAGE</div>
         </li>
       </ul>
     </nav>

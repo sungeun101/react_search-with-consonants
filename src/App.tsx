@@ -4,10 +4,19 @@ import NavBar from "./components/NavBar";
 import Search from "./components/Search";
 import Carousel from "./components/Carousel";
 
-const slideLength = Math.ceil(stores.length / 12);
+export type Lang = "ko" | "en";
+
+export interface IStore {
+  name: {
+    ko: string;
+    en: string;
+  };
+  floor: number;
+}
 
 function App() {
-  const [filteredStores, setFilteredStores] = useState(stores);
+  const [filteredStores, setFilteredStores] = useState<IStore[]>(stores);
+  const [selectedLang, setSelectedLang] = useState<Lang>("ko");
 
   return (
     <section className="bg-mainBg w-screen h-screen">
@@ -17,51 +26,25 @@ function App() {
             매장안내
           </header>
 
-          <main className="border-b-2 h-[540px]">
+          <main className="border-b-2 h-[540px] flex justify-center items-center flex-col">
             {/* stores */}
             {filteredStores.length === 0 ? (
-              <div className="flex justify-center items-center text-3xl text-grey">
-                검색 결과가 없습니다.
-              </div>
+              <div className="text-3xl text-grey">검색 결과가 없습니다.</div>
             ) : (
-              <Carousel>
-                {[...Array(slideLength)].map((current, currentSlideIndex) => (
-                  <ul
-                    key={currentSlideIndex}
-                    className="grid justify-items-center grid-cols-4 grid-rows-3 gap-9"
-                  >
-                    {filteredStores
-                      .slice(
-                        currentSlideIndex * 12,
-                        currentSlideIndex * 12 + 12
-                      )
-                      .map((store: any, _index: number) => (
-                        <li
-                          className="w-[335px] h-[125px] bg-white flex"
-                          key={store.name}
-                        >
-                          <div className="basis-2/3 border-r-2">icon</div>
-                          <div className="flex items-center justify-between w-full p-4">
-                            <span>{store.name}</span>
-                            <div className="flex flex-col h-full justify-between items-center">
-                              <span className="border-b-2 flex justify-center w-4">
-                                {store.floor}F
-                              </span>
-                              <span>icon</span>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-                ))}
-              </Carousel>
+              <Carousel
+                filteredStores={filteredStores}
+                selectedLang={selectedLang}
+              />
             )}
           </main>
 
-          <Search setFilteredStores={setFilteredStores} />
+          <Search
+            setFilteredStores={setFilteredStores}
+            selectedLang={selectedLang}
+          />
         </div>
 
-        <NavBar />
+        <NavBar selectedLang={selectedLang} setSelectedLang={setSelectedLang} />
       </div>
     </section>
   );
