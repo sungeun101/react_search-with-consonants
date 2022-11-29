@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IStore, Lang } from "../App";
-import { keyboards, stores } from "../consts";
+import { keyboards, searchTabs, stores } from "../consts";
 import texts from "../common.json";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
@@ -42,17 +42,24 @@ interface Props {
   setFilteredStores: React.Dispatch<React.SetStateAction<IStore[]>>;
   selectedLang: Lang;
 }
-
 interface IKeyboardType {
   type: string;
   name: string;
   consonants: Array<string | number>;
+}
+interface ISearchTab {
+  type: string;
+  name: {
+    ko: string;
+    en: string;
+  };
 }
 
 export default function Search({ setFilteredStores, selectedLang }: Props) {
   const [selectedCons, setSelectedCons] = useState("");
   const [selectedKeyboardType, setSelectedKeyboardType] =
     useState<IKeyboardType>(keyboards[0]);
+  const [selectedTab, setSelectedTab] = useState<ISearchTab>(searchTabs[0]);
 
   useEffect(() => {
     searchMatchingStores();
@@ -134,20 +141,39 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     setSelectedKeyboardType(selected!);
   };
 
+  const changeSearchTab = (e: any) => {
+    const {
+      target: {
+        dataset: { searchTabType },
+      },
+    } = e;
+    console.log(searchTabType);
+    const selected = searchTabs.find((tab) => tab.type === searchTabType);
+    if (selected === selectedTab) return;
+    setSelectedTab(selected!);
+  };
+
   return (
     <section className="p-8 flex gap-10">
+      {/* Search Tabs */}
       <nav className="flex flex-col gap-2 justify-between">
-        <button className="bg-red w-[200px] h-[55px] text-white">
-          {texts.searchBy.initials[selectedLang]}
-        </button>
-        <button className="bg-white w-[200px] h-[55px]">
-          {texts.searchBy.category[selectedLang]}
-        </button>
-        <button className="bg-white w-[200px] h-[55px]">
-          {texts.searchBy.floor[selectedLang]}
-        </button>
+        {searchTabs.map((item, _index) => (
+          <button
+            className={`w-[200px] h-[55px] ${
+              selectedTab?.type === item.type
+                ? "bg-red text-white"
+                : "bg-white text-black"
+            }`}
+            onClick={changeSearchTab}
+            key={item.type}
+            data-search-tab-type={item.type}
+          >
+            {item.name[selectedLang]}
+          </button>
+        ))}
       </nav>
 
+      {/* Search Bar */}
       <div className="w-full flex flex-col mr-60">
         <div className="mx-auto relative">
           <input
@@ -179,39 +205,48 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
           </button>
         </div>
 
-        <div className="flex gap-10">
-          <ul className="flex flex-col gap-2">
-            {keyboards.map((item, _index) => (
-              <button
-                className={`w-[95px] h-[35px] rounded-3xl ${
-                  selectedKeyboardType.type === item.type
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }`}
-                onClick={changeKeyboardLanguage}
-                key={item.type}
-                data-keyboard-type={item.type}
-              >
-                {item.name}
-              </button>
-            ))}
-          </ul>
-          <ul className="flex flex-col gap-4 pt-4">
-            <div className="flex flex-wrap gap-6">
-              {selectedKeyboardType.consonants.map(
-                (con: string | number, _index: number) => (
-                  <button
-                    className="w-[35px] h-[35px] rounded-full bg-grey"
-                    onClick={handleConClick}
-                    key={con}
-                  >
-                    {con}
-                  </button>
-                )
-              )}
-            </div>
-          </ul>
-        </div>
+        {selectedTab?.type === "initials" ? (
+          // Keyboard
+          <article className="flex gap-10">
+            <ul className="flex flex-col gap-2">
+              {keyboards.map((item, _index) => (
+                <button
+                  className={`w-[95px] h-[35px] rounded-3xl ${
+                    selectedKeyboardType.type === item.type
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  }`}
+                  onClick={changeKeyboardLanguage}
+                  key={item.type}
+                  data-keyboard-type={item.type}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </ul>
+            <ul className="flex flex-col gap-4 pt-4">
+              <div className="flex flex-wrap gap-6">
+                {selectedKeyboardType.consonants.map(
+                  (con: string | number, _index: number) => (
+                    <button
+                      className="w-[35px] h-[35px] rounded-full bg-grey"
+                      onClick={handleConClick}
+                      key={con}
+                    >
+                      {con}
+                    </button>
+                  )
+                )}
+              </div>
+            </ul>
+          </article>
+        ) : selectedTab?.type === "category" ? (
+          // Category
+          <article></article>
+        ) : (
+          // Floor
+          <article></article>
+        )}
       </div>
     </section>
   );
