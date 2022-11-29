@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IStore, Lang } from "../App";
-import { keyboards, searchTabs, stores } from "../consts";
+import { category, keyboards, searchTabs, stores } from "../consts";
 import texts from "../common.json";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
@@ -54,16 +54,29 @@ interface ISearchTab {
     en: string;
   };
 }
+interface ICategory {
+  name: {
+    ko: string;
+    en: string;
+  };
+}
 
 export default function Search({ setFilteredStores, selectedLang }: Props) {
   const [selectedCons, setSelectedCons] = useState("");
   const [selectedKeyboardType, setSelectedKeyboardType] =
     useState<IKeyboardType>(keyboards[0]);
   const [selectedTab, setSelectedTab] = useState<ISearchTab>(searchTabs[0]);
+  const [selectedCategory, setSelectedCategory] = useState<ICategory>(
+    category[0]
+  );
 
   useEffect(() => {
-    searchMatchingStores();
+    searchMatchingInitials();
   }, [selectedCons]);
+
+  useEffect(() => {
+    searchMatchingCategory();
+  }, [selectedCategory]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCons(e.target.value);
@@ -75,7 +88,11 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     setSelectedCons(text);
   };
 
-  const searchMatchingStores = () => {
+  const showAllStores = () => {
+    setFilteredStores(stores);
+  };
+
+  const searchMatchingInitials = () => {
     const createFuzzyMatcher = (selectedCons: string) => {
       const reg = selectedCons.split("").map(pattern).join(".*?");
       return new RegExp(reg);
@@ -123,9 +140,34 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     );
   };
 
+  const searchMatchingCategory = () => {
+    if (selectedCategory.name.en === "ALL") {
+      showAllStores();
+    } else {
+      setFilteredStores(
+        stores.filter(
+          (store) =>
+            store.category[selectedLang] === selectedCategory.name[selectedLang]
+        )
+      );
+    }
+  };
+
   const deleteOneCon = () => {
     if (selectedCons === "") return;
     setSelectedCons((prev) => prev.slice(0, -1));
+  };
+
+  const changeSearchTab = (e: any) => {
+    showAllStores();
+    const {
+      target: {
+        dataset: { searchTabType },
+      },
+    } = e;
+    const selected = searchTabs.find((tab) => tab.type === searchTabType);
+    if (selected === selectedTab) return;
+    setSelectedTab(selected!);
   };
 
   const changeKeyboardLanguage = (e: any) => {
@@ -141,16 +183,17 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     setSelectedKeyboardType(selected!);
   };
 
-  const changeSearchTab = (e: any) => {
+  const changeCategory = (e: any) => {
     const {
       target: {
-        dataset: { searchTabType },
+        dataset: { categoryName },
       },
     } = e;
-    console.log(searchTabType);
-    const selected = searchTabs.find((tab) => tab.type === searchTabType);
-    if (selected === selectedTab) return;
-    setSelectedTab(selected!);
+    const selected = category.find(
+      (item) => item.name[selectedLang] === categoryName
+    );
+    if (selected === selectedCategory) return;
+    setSelectedCategory(selected!);
   };
 
   return (
@@ -173,37 +216,39 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
         ))}
       </nav>
 
-      {/* Search Bar */}
-      <div className="w-full flex flex-col mr-60">
-        <div className="mx-auto relative">
-          <input
-            type="text"
-            name="search"
-            placeholder={texts.searchPlaceholder[selectedLang]}
-            className="bg-black w-[574px] h-[45px] rounded-3xl text-white pl-6"
-            onChange={handleInputChange}
-            value={selectedCons}
-          />
-          <button
-            className="bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center absolute right-2 bottom-1.5"
-            onClick={deleteOneCon}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+      <div className="w-full flex flex-col ">
+        {selectedTab?.type === "initials" && (
+          // Search Bar
+          <div className="mx-auto relative mr-60">
+            <input
+              type="text"
+              name="search"
+              placeholder={texts.searchPlaceholder[selectedLang]}
+              className="bg-black w-[574px] h-[45px] rounded-3xl text-white pl-6"
+              onChange={handleInputChange}
+              value={selectedCons}
+            />
+            <button
+              className="bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center absolute right-2 bottom-1.5"
+              onClick={deleteOneCon}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {selectedTab?.type === "initials" ? (
           // Keyboard
@@ -242,7 +287,30 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
           </article>
         ) : selectedTab?.type === "category" ? (
           // Category
-          <article></article>
+          <article className="h-full">
+            <ul className="flex justify-between items-center h-full ml-20">
+              {category.map((item, _index) => (
+                <li
+                  className="flex flex-col items-center gap-2"
+                  key={item.name.en}
+                >
+                  <button
+                    className={`w-[55px] h-[55px] rounded-lg ${
+                      selectedCategory.name[selectedLang] ===
+                      item.name[selectedLang]
+                        ? "bg-black text-white"
+                        : "bg-white text-black"
+                    }`}
+                    onClick={changeCategory}
+                    data-category-name={item.name[selectedLang]}
+                  >
+                    icon
+                  </button>
+                  <span>{item.name[selectedLang]}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
         ) : (
           // Floor
           <article></article>

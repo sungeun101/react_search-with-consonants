@@ -16,8 +16,8 @@ export const stores = [
       en: "CGV",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "리빙",
+      en: "Living",
     },
     floor: -2,
   },
@@ -38,8 +38,8 @@ export const stores = [
       en: "GARMIN",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "주얼리",
+      en: "Jewerly",
     },
     floor: -3,
   },
@@ -49,8 +49,8 @@ export const stores = [
       en: "DENBY",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "키즈",
+      en: "Kids",
     },
     floor: -1,
   },
@@ -60,8 +60,8 @@ export const stores = [
       en: "DONGKOOK",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "리빙",
+      en: "Living",
     },
     floor: -2,
   },
@@ -72,7 +72,7 @@ export const stores = [
     },
     category: {
       ko: "",
-      en: "",
+      en: "Leisure sports",
     },
     floor: -2,
   },
@@ -82,8 +82,8 @@ export const stores = [
       en: "MAESTRO",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "주얼리",
+      en: "Jewerly",
     },
     floor: -1,
   },
@@ -93,8 +93,8 @@ export const stores = [
       en: "MERRELL",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "패션",
+      en: "Fashion",
     },
     floor: -2,
   },
@@ -104,8 +104,8 @@ export const stores = [
       en: "LCDC",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "스포츠",
+      en: "Leisure sports",
     },
     floor: 1,
   },
@@ -115,8 +115,8 @@ export const stores = [
       en: "COMETTI",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "럭셔리",
+      en: "Luxury",
     },
     floor: 2,
   },
@@ -126,8 +126,8 @@ export const stores = [
       en: "MARNI",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "패션",
+      en: "Fashion",
     },
     floor: 2,
   },
@@ -137,8 +137,8 @@ export const stores = [
       en: "BAOBAO",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "키즈",
+      en: "Kids",
     },
     floor: 2,
   },
@@ -148,8 +148,8 @@ export const stores = [
       en: "TAG Heuer",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "럭셔리",
+      en: "Luxury",
     },
     floor: 2,
   },
@@ -159,8 +159,8 @@ export const stores = [
       en: "TORY BURCH",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "럭셔리",
+      en: "Luxury",
     },
     floor: 2,
   },
@@ -170,8 +170,8 @@ export const stores = [
       en: "Donkatsu 1985",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "리빙",
+      en: "Living",
     },
     floor: -2,
   },
@@ -181,8 +181,8 @@ export const stores = [
       en: "Capsule 1.618",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "뷰티",
+      en: "Beauty",
     },
     floor: 4,
   },
@@ -192,30 +192,20 @@ export const stores = [
       en: "GUCCI",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "럭셔리",
+      en: "Luxury",
     },
     floor: 1,
   },
-  {
-    name: {
-      ko: "가민",
-      en: "GARMIN",
-    },
-    category: {
-      ko: "",
-      en: "",
-    },
-    floor: -3,
-  },
+
   {
     name: {
       ko: "오즈세컨",
       en: "O'2nd",
     },
     category: {
-      ko: "",
-      en: "",
+      ko: "뷰티",
+      en: "Beauty",
     },
     floor: -2,
   },
@@ -290,5 +280,95 @@ export const keyboards = [
     type: "num",
     name: "1 2 3",
     consonants: arrWithNums,
+  },
+];
+
+export const category = [
+  {
+    name: {
+      ko: "전체보기",
+      en: "ALL",
+    },
+  },
+  {
+    name: {
+      ko: "럭셔리",
+      en: "Luxury",
+    },
+  },
+  {
+    name: {
+      ko: "뷰티",
+      en: "Beauty",
+    },
+  },
+  {
+    name: {
+      ko: "패션",
+      en: "Fashion",
+    },
+  },
+  {
+    name: {
+      ko: "주얼리",
+      en: "Jewerly",
+    },
+  },
+  {
+    name: {
+      ko: "키즈",
+      en: "Kids",
+    },
+  },
+  {
+    name: {
+      ko: "리빙",
+      en: "Living",
+    },
+  },
+  {
+    name: {
+      ko: "스포츠",
+      en: "Leisure sports",
+    },
+  },
+];
+
+export const mainMenu = [
+  {
+    name: {
+      ko: "층별안내",
+      en: "Floor",
+    },
+  },
+  {
+    name: {
+      ko: "매장안내",
+      en: "Brand Search",
+    },
+  },
+  {
+    name: {
+      ko: "식당안내",
+      en: "Food",
+    },
+  },
+  {
+    name: {
+      ko: "전층안내",
+      en: "All",
+    },
+  },
+  {
+    name: {
+      ko: "이벤트",
+      en: "Events",
+    },
+  },
+  {
+    name: {
+      ko: "시설안내",
+      en: "Facilities",
+    },
   },
 ];

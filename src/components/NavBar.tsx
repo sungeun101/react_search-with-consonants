@@ -1,6 +1,6 @@
 import React from "react";
 import { Lang } from "../App";
-import texts from "../common.json";
+import { mainMenu } from "../consts";
 
 interface Props {
   selectedLang: Lang;
@@ -28,13 +28,13 @@ export default function NavBar({ selectedLang, setSelectedLang }: Props) {
             테넌트별 영업시간이 상이하므로 세부내용 매장안내 참조
           </p>
         </li>
-        {[...Array(6)].map((item: any, index: any) => (
+        {mainMenu.map((item: any, _index: any) => (
           <li
             className="w-[240px] flex flex-col justify-center items-center text-[20px]"
-            key={index}
+            key={item.name.en}
           >
-            <div>icon</div>
-            <span>{texts.menuTitle[selectedLang][index]}</span>
+            <div>icons</div>
+            <span>{item.name[selectedLang]}</span>
           </li>
         ))}
         <li className="w-[240px] border-l-2 border-slate-50 flex flex-col justify-center items-center gap-1.5">

@@ -7,31 +7,6 @@
     "ko": "검색 결과가 없습니다.",
     "en": "No Results Found"
   },
-  "menuTitle": {
-    "ko": [
-      "층별안내",
-      "매장안내",
-      "식당안내",
-      "전층안내",
-      "이벤트",
-      "시설안내"
-    ],
-    "en": ["Floor", "Brand Search", "F&B", "전층안내", "Events", "Facilities"]
-  },
-  "searchBy": {
-    "initials": {
-      "ko": "초성/알파벳 검색",
-      "en": "Initials/Alphabet"
-    },
-    "category": {
-      "ko": "카테고리 검색",
-      "en": "Category"
-    },
-    "floor": {
-      "ko": "층별 검색",
-      "en": "Floor"
-    }
-  },
   "searchPlaceholder": {
     "ko": "찾고자 하시는 매장의 초성을 선택해주세요.",
     "en": "Choose the initial consonants of the store you would like to find."

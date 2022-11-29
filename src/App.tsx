@@ -6,22 +6,6 @@ import Carousel from "./components/Carousel";
 import texts from "./common.json";
 
 export type Lang = "ko" | "en";
-export type EnCategory =
-  | "Luxury"
-  | "Beauty"
-  | "Fashion"
-  | "Jewerly"
-  | "Kids"
-  | "Living"
-  | "Leisure sports";
-export type KoCategory =
-  | "럭셔리"
-  | "뷰티"
-  | "패션"
-  | "주얼리"
-  | "키즈"
-  | "리빙"
-  | "스포츠";
 
 export interface IStore {
   name: {
