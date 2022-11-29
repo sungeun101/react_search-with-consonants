@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IStore, Lang } from "../App";
-import { category, keyboards, searchTabs, stores } from "../consts";
+import { category, floors, keyboards, searchTabs, stores } from "../consts";
 import texts from "../common.json";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
@@ -69,6 +69,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<ICategory>(
     category[0]
   );
+  const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
 
   useEffect(() => {
     searchMatchingInitials();
@@ -77,6 +78,10 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
   useEffect(() => {
     searchMatchingCategory();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    searchMatchingFloor();
+  }, [selectedFloor]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCons(e.target.value);
@@ -90,6 +95,13 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
 
   const showAllStores = () => {
     setFilteredStores(stores);
+  };
+
+  const resetSearchFilter = () => {
+    setSelectedCons("");
+    setSelectedKeyboardType(keyboards[0]);
+    setSelectedCategory(category[0]);
+    setSelectedFloor(null);
   };
 
   const searchMatchingInitials = () => {
@@ -153,6 +165,16 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     }
   };
 
+  const searchMatchingFloor = () => {
+    if (!selectFloor) {
+      showAllStores();
+    } else {
+      setFilteredStores(
+        stores.filter((store) => store.floor === selectedFloor)
+      );
+    }
+  };
+
   const deleteOneCon = () => {
     if (selectedCons === "") return;
     setSelectedCons((prev) => prev.slice(0, -1));
@@ -160,6 +182,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
 
   const changeSearchTab = (e: any) => {
     showAllStores();
+    resetSearchFilter();
     const {
       target: {
         dataset: { searchTabType },
@@ -170,7 +193,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     setSelectedTab(selected!);
   };
 
-  const changeKeyboardLanguage = (e: any) => {
+  const selectKeyboardLanguage = (e: any) => {
     const {
       target: {
         dataset: { keyboardType },
@@ -183,7 +206,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     setSelectedKeyboardType(selected!);
   };
 
-  const changeCategory = (e: any) => {
+  const selectCategory = (e: any) => {
     const {
       target: {
         dataset: { categoryName },
@@ -194,6 +217,17 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     );
     if (selected === selectedCategory) return;
     setSelectedCategory(selected!);
+  };
+
+  const selectFloor = (e: any) => {
+    const {
+      target: {
+        dataset: { floorNumber },
+      },
+    } = e;
+    const selected = floors.find((item) => item === parseInt(floorNumber));
+    if (selected === selectedFloor) return;
+    if (selected) setSelectedFloor(selected);
   };
 
   return (
@@ -216,10 +250,10 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
         ))}
       </nav>
 
-      <div className="w-full flex flex-col ">
+      <div className="w-full flex flex-col mr-60">
         {selectedTab?.type === "initials" && (
           // Search Bar
-          <div className="mx-auto relative mr-60">
+          <div className="mx-auto relative">
             <input
               type="text"
               name="search"
@@ -261,7 +295,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
                       ? "bg-black text-white"
                       : "bg-white text-black"
                   }`}
-                  onClick={changeKeyboardLanguage}
+                  onClick={selectKeyboardLanguage}
                   key={item.type}
                   data-keyboard-type={item.type}
                 >
@@ -301,7 +335,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
                         ? "bg-black text-white"
                         : "bg-white text-black"
                     }`}
-                    onClick={changeCategory}
+                    onClick={selectCategory}
                     data-category-name={item.name[selectedLang]}
                   >
                     icon
@@ -313,7 +347,24 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
           </article>
         ) : (
           // Floor
-          <article></article>
+          <article className="h-full">
+            <ul className="flex gap-10 items-center h-full ml-20">
+              {floors.map((floorNum, _index) => (
+                <button
+                  className={`w-[80px] h-[80px] rounded-lg text-3xl ${
+                    selectedFloor === floorNum
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                  }`}
+                  onClick={selectFloor}
+                  data-floor-number={floorNum}
+                  key={floorNum}
+                >
+                  {floorNum}F
+                </button>
+              ))}
+            </ul>
+          </article>
         )}
       </div>
     </section>
