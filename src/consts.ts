@@ -1,16 +1,25 @@
 export const stores = [
-  //   {
-  //     name: "ABC 그랜드스테이지",
-  //     floor: -1,
-  //   },
-  //   {
-  //     name: "가먼츠 유니온",
-  //     floor: -2,
-  //   },
-  //   {
-  //     name: "가메골 만두",
-  //     floor: -2,
-  //   },
+  {
+    name: {
+      ko: "ABC 그랜드스테이지",
+      en: "ABC GRANDSTAGE",
+    },
+    floor: -1,
+  },
+  {
+    name: {
+      ko: "CGV",
+      en: "CGV",
+    },
+    floor: -2,
+  },
+  {
+    name: {
+      ko: "CK진",
+      en: "CK JEANS",
+    },
+    floor: -1,
+  },
   {
     name: {
       ko: "가민",
@@ -18,110 +27,111 @@ export const stores = [
     },
     floor: -3,
   },
-  //   {
-  //     name: "루이가또즈 셔츠",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "에잇세컨즈",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "JJ지고트",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "LAP",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "MLB",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "SI",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "게스",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "까르뜨블랑슈",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "고디바",
-  //     floor: -2,
-  //   },
-  //   {
-  //     name: "고세",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "골든구스",
-  //     floor: 2,
-  //   },
-  //   {
-  //     name: "골든듀",
-  //     floor: 2,
-  //   },
-  //   {
-  //     name: "공차",
-  //     floor: -1,
-  //   },
-  //   {
-  //     name: "교동 한과",
-  //     floor: -2,
-  //   },
-  //   {
-  //     name: "구스 앤홈",
-  //     floor: -2,
-  //   },
-  //   {
-  //     name: "구찌",
-  //     floor: -3,
-  //   },
-  //   {
-  //     name: "구찌 게스 브린 스톤",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "구찌 뷰티",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "구호",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "그레인스 쿠키",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "그린파이브",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "글라스가든",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "글라스하우스",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "금강",
-  //     floor: 1,
-  //   },
-  //   {
-  //     name: "기비",
-  //     floor: 3,
-  //   },
-  //   {
-  //     name: "K2",
-  //     floor: -2,
-  //   },
+  {
+    name: {
+      ko: "덴비",
+      en: "DENBY",
+    },
+    floor: -1,
+  },
+  {
+    name: {
+      ko: "동국 제약",
+      en: "DONGKOOK",
+    },
+    floor: -2,
+  },
+  {
+    name: {
+      ko: "드로우핏",
+      en: "DRAW FIT",
+    },
+    floor: -2,
+  },
+  {
+    name: {
+      ko: "마에스트로",
+      en: "MAESTRO",
+    },
+    floor: -1,
+  },
+  {
+    name: {
+      ko: "머렐",
+      en: "MERRELL",
+    },
+    floor: -2,
+  },
+  {
+    name: {
+      ko: "LCDC",
+      en: "LCDC",
+    },
+    floor: 1,
+  },
+  {
+    name: {
+      ko: "꼬메띠",
+      en: "COMETTI",
+    },
+    floor: 2,
+  },
+  {
+    name: {
+      ko: "마르니",
+      en: "MARNI",
+    },
+    floor: 2,
+  },
+  {
+    name: {
+      ko: "바오바오",
+      en: "BAOBAO",
+    },
+    floor: 2,
+  },
+  {
+    name: {
+      ko: "태그호이어",
+      en: "TAG Heuer",
+    },
+    floor: 2,
+  },
+  {
+    name: {
+      ko: "토리버치",
+      en: "TORY BURCH",
+    },
+    floor: 2,
+  },
+  {
+    name: {
+      ko: "돈까스 1985",
+      en: "Donkatsu 1985",
+    },
+    floor: -2,
+  },
+  {
+    name: {
+      ko: "캡슐 1.618",
+      en: "Capsule 1.618",
+    },
+    floor: 4,
+  },
+  {
+    name: {
+      ko: "구찌",
+      en: "GUCCI",
+    },
+    floor: 1,
+  },
+  {
+    name: {
+      ko: "가민",
+      en: "GARMIN",
+    },
+    floor: -3,
+  },
   {
     name: {
       ko: "오즈세컨",

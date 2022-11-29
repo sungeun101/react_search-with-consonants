@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { stores } from "./consts";
 import NavBar from "./components/NavBar";
 import Search from "./components/Search";
 import Carousel from "./components/Carousel";
+import texts from "./common.json";
 
 export type Lang = "ko" | "en";
 
@@ -23,13 +24,15 @@ function App() {
       <div className="w-[1920px] h-[965px]">
         <div className="border-2 px-[220px] pt-[60px] relative">
           <header className="text-[45px] pb-4 font-bold text-black">
-            매장안내
+            {texts.searchByStore[selectedLang]}
           </header>
 
           <main className="border-b-2 h-[540px] flex justify-center items-center flex-col">
             {/* stores */}
             {filteredStores.length === 0 ? (
-              <div className="text-3xl text-grey">검색 결과가 없습니다.</div>
+              <div className="text-3xl text-grey">
+                {texts.noResults[selectedLang]}
+              </div>
             ) : (
               <Carousel
                 filteredStores={filteredStores}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IStore, Lang } from "../App";
 import { keyboards, stores } from "../consts";
+import texts from "../common.json";
 
 const reESC = /[\\^$.*+?()[\]{}|]/g;
 const reChar = /[가-힣]/;
@@ -137,10 +138,14 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
     <section className="p-8 flex gap-10">
       <nav className="flex flex-col gap-2 justify-between">
         <button className="bg-red w-[200px] h-[55px] text-white">
-          초성/알파벳 검색
+          {texts.searchBy.initials[selectedLang]}
         </button>
-        <button className="bg-white w-[200px] h-[55px]">카테고리 검색</button>
-        <button className="bg-white w-[200px] h-[55px]">층별 검색</button>
+        <button className="bg-white w-[200px] h-[55px]">
+          {texts.searchBy.category[selectedLang]}
+        </button>
+        <button className="bg-white w-[200px] h-[55px]">
+          {texts.searchBy.floor[selectedLang]}
+        </button>
       </nav>
 
       <div className="w-full flex flex-col mr-60">
@@ -148,8 +153,8 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
           <input
             type="text"
             name="search"
-            placeholder="찾고자 하시는 매장의 초성을 선택해주세요."
-            className="bg-black w-[574px] h-[45px] rounded-3xl text-white pl-36"
+            placeholder={texts.searchPlaceholder[selectedLang]}
+            className="bg-black w-[574px] h-[45px] rounded-3xl text-white pl-6"
             onChange={handleInputChange}
             value={selectedCons}
           />
@@ -174,7 +179,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
           </button>
         </div>
 
-        <div className="flex gap-12">
+        <div className="flex gap-10">
           <ul className="flex flex-col gap-2">
             {keyboards.map((item, _index) => (
               <button

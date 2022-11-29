@@ -1,13 +1,6 @@
 import React from "react";
 import { Lang } from "../App";
-const menuTitle = [
-  "층별안내",
-  "매장안내",
-  "식당안내",
-  "전층안내",
-  "이벤트",
-  "시설안내",
-];
+import texts from "../common.json";
 
 interface Props {
   selectedLang: Lang;
@@ -41,7 +34,7 @@ export default function NavBar({ selectedLang, setSelectedLang }: Props) {
             key={index}
           >
             <div>icon</div>
-            <span>{menuTitle[index]}</span>
+            <span>{texts.menuTitle[selectedLang][index]}</span>
           </li>
         ))}
         <li className="w-[240px] border-l-2 border-slate-50 flex flex-col justify-center items-center gap-1.5">
