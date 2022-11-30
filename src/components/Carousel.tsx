@@ -12,10 +12,7 @@ export default function Carousel({ filteredStores, selectedLang }: Props) {
   const [slideLength, setSlideLength] = useState(
     Math.ceil(filteredStores.length / 12)
   ); // total slides that passed to the carousel
-
-  useEffect(() => {
-    console.log(filteredStores);
-  }, [filteredStores]);
+  const [touchPosition, setTouchPosition] = useState(null);
 
   useEffect(() => {
     setSlideLength(Math.ceil(filteredStores.length / 12));
@@ -33,40 +30,52 @@ export default function Carousel({ filteredStores, selectedLang }: Props) {
     }
   };
 
+  const handleTouchStart = (e: any) => {
+    console.log(e.clientX);
+    // const touchDown = e.touches[0].clientX;
+    // console.log(touchDown);
+    // setTouchPosition(touchDown);
+  };
+
   return (
     <>
-      <div>
-        <div className="carousel-content-wrapper">
+      <div className="carousel-container">
+        <div className="carousel-wrapper">
           <div
-            className="carousel-content"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            className="carousel-content-wrapper"
+            onMouseDown={handleTouchStart}
           >
-            {[...Array(slideLength)].map((current, currentSlideIndex) => (
-              <ul
-                key={currentSlideIndex}
-                className="grid justify-items-center grid-cols-4 grid-rows-3 gap-9"
-              >
-                {filteredStores
-                  .slice(currentSlideIndex * 12, currentSlideIndex * 12 + 12)
-                  .map((store: any, _index: number) => (
-                    <li
-                      className="w-[335px] h-[125px] bg-white flex"
-                      key={store.name[selectedLang]}
-                    >
-                      <div className="basis-2/3 border-r-2">icon</div>
-                      <div className="flex items-center justify-between w-full p-4">
-                        <span>{store.name[selectedLang]}</span>
-                        <div className="flex flex-col h-full justify-between items-center">
-                          <span className="border-b-2 flex justify-center w-4">
-                            {store.floor}F
-                          </span>
-                          <span>icon</span>
+            <div
+              className="carousel-content"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {[...Array(slideLength)].map((current, currentSlideIndex) => (
+                <ul
+                  key={currentSlideIndex}
+                  className="grid justify-items-center grid-cols-4 grid-rows-3 gap-9"
+                >
+                  {filteredStores
+                    .slice(currentSlideIndex * 12, currentSlideIndex * 12 + 12)
+                    .map((store: any, _index: number) => (
+                      <li
+                        className="w-[335px] h-[125px] bg-white flex"
+                        key={store.name[selectedLang]}
+                      >
+                        <div className="basis-2/3 border-r-2">icon</div>
+                        <div className="flex items-center justify-between w-full p-4">
+                          <span>{store.name[selectedLang]}</span>
+                          <div className="flex flex-col h-full justify-between items-center">
+                            <span className="border-b-2 flex justify-center w-4">
+                              {store.floor}F
+                            </span>
+                            <span>icon</span>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            ))}
+                      </li>
+                    ))}
+                </ul>
+              ))}
+            </div>
           </div>
         </div>
       </div>
