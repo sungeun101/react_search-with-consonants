@@ -12,7 +12,7 @@ export default function Carousel({ filteredStores, selectedLang }: Props) {
   const [slideLength, setSlideLength] = useState(
     Math.ceil(filteredStores.length / 12)
   ); // total slides that passed to the carousel
-  const [touchPosition, setTouchPosition] = useState(null);
+  const [touchPosition, setTouchPosition] = useState<number | null>(null);
 
   useEffect(() => {
     setSlideLength(Math.ceil(filteredStores.length / 12));
@@ -30,11 +30,25 @@ export default function Carousel({ filteredStores, selectedLang }: Props) {
     }
   };
 
-  const handleTouchStart = (e: any) => {
-    console.log(e.clientX);
-    // const touchDown = e.touches[0].clientX;
-    // console.log(touchDown);
-    // setTouchPosition(touchDown);
+  let touchDown: number | null;
+
+  const handleMouseDown = (e: any) => {
+    touchDown = e.clientX;
+    setTouchPosition(touchDown);
+  };
+
+  const handleMouseUp = (e: any) => {
+    touchDown = touchPosition;
+    if (touchDown === null) return;
+    const currentTouch = e.clientX;
+    const diff = touchDown - currentTouch;
+    if (diff > 5) {
+      next();
+    }
+    if (diff < -5) {
+      prev();
+    }
+    setTouchPosition(null);
   };
 
   return (
@@ -43,7 +57,8 @@ export default function Carousel({ filteredStores, selectedLang }: Props) {
         <div className="carousel-wrapper">
           <div
             className="carousel-content-wrapper"
-            onMouseDown={handleTouchStart}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
           >
             <div
               className="carousel-content"
