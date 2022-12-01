@@ -76,11 +76,11 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
   }, [selectedCons]);
 
   useEffect(() => {
-    searchMatchingCategory();
+    if (selectedTab !== searchTabs[0]) searchMatchingCategory();
   }, [selectedCategory]);
 
   useEffect(() => {
-    searchMatchingFloor();
+    if (selectedTab !== searchTabs[0]) searchMatchingFloor();
   }, [selectedFloor]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,7 +166,7 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
   };
 
   const searchMatchingFloor = () => {
-    if (!selectFloor) {
+    if (!selectedFloor) {
       showAllStores();
     } else {
       setFilteredStores(
@@ -225,7 +225,9 @@ export default function Search({ setFilteredStores, selectedLang }: Props) {
         dataset: { floorNumber },
       },
     } = e;
+    console.log("floornum", floorNumber);
     const selected = floors.find((item) => item === parseInt(floorNumber));
+    console.log("selected", selected);
     if (selected === selectedFloor) return;
     if (selected) setSelectedFloor(selected);
   };
